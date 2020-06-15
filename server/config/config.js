@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'dev') {
     urlDB = 'mongodb://localhost:27017/cafe';
 
 } else {
-    urlDB = mongo_remoto;
+    urlDB = process.env.mongo_remoto;
 }
 
 process.env.URLDB = urlDB;
