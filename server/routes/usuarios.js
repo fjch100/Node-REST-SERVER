@@ -10,11 +10,14 @@ const _ = require('underscore'); //Modulo helper, con funciones utilitarias
 
 const app = express(); //instancia del servidor
 const Usuario = require('../models/usuario'); //carga el modelo de Usuario
+const { verificaToken, verificaAdmin_role } = require('../middleware/autorizacion'); //modulo de middleware para verificar token
+
 
 /**************************************
  *  GET USUARIO = LISTADO DE USUARIOS
  *************************************/
-app.get('/usuario', function(req, res) {
+app.get('/usuario', [verificaToken], function(req, res) {
+
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -47,7 +50,7 @@ app.get('/usuario', function(req, res) {
 /**************************************
  *  POST USUARIO = CREA UN USUARIO
  *************************************/
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdmin_role], function(req, res) {
     let body = req.body;
     //creamos la instancia del nuevo usuario a guardar
     let usuario = new Usuario({
@@ -76,7 +79,7 @@ app.post('/usuario', function(req, res) {
 /**************************************
  *  PUT USUARIO = ACTUALIZA UN USUARIO
  *************************************/
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdmin_role], function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
     //busca un usuario y lo actualiza, validando con el modelo
@@ -98,11 +101,12 @@ app.put('/usuario/:id', function(req, res) {
 /**************************************
  *  DELETE = BORRA/DESACTIVA UN USUARIO 
  *************************************/
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdmin_role], function(req, res) {
     let id = req.params.id;
 
     //busca un usuario por id, lo borra de la BD y lo retorna al callback
     //Usuario.findByIdAndDelete(id, (err, usuarioBorrado) => {
+    //Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
 
     //busca un usuario por id, coloca el flag de estadoen false lo retorna al callback
     Usuario.findByIdAndUpdate(id, { estado: false }, { new: true }, (err, usuarioDB) => {

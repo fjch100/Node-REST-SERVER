@@ -11,6 +11,7 @@ const mongoose = require('mongoose'); //maneja mongoDB,conexiones,modelos y quer
 const bodyParser = require('body-parser'); //convierte el body en JSON
 
 
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -18,7 +19,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //maneja las rutas(como un controlador) para el modelo de usuario(CRUD)
-app.use(require('./routes/usuarios'));
+app.use(require('./routes/index'));
+
 
 //Realiza la conexion a MongoDB / base de datos LOCAL "cafe"
 //mongoose.connect('mongodb://localhost:27017/cafe', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
