@@ -9,6 +9,7 @@ const express = require('express'); //servidor HTTP
 const app = express(); //la instancia del servidor HTTP
 const mongoose = require('mongoose'); //maneja mongoDB,conexiones,modelos y querys
 const bodyParser = require('body-parser'); //convierte el body en JSON
+const path = require('path');
 
 
 
@@ -18,8 +19,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+app.use(express.static(path.resolve(__dirname, '../public')));
+
 //maneja las rutas(como un controlador) para el modelo de usuario(CRUD)
 app.use(require('./routes/index'));
+
 
 
 //Realiza la conexion a MongoDB / base de datos LOCAL "cafe"
