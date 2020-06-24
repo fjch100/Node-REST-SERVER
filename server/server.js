@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+//sirve paginas estaticas/assets/imagenes desde el directorio "public"
 app.use(express.static(path.resolve(__dirname, '../public')));
 
 //maneja las rutas(como un controlador) para el modelo de usuario(CRUD)
