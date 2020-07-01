@@ -63,7 +63,7 @@ app.post('/usuario', [verificaToken, verificaAdmin_role], function(req, res) {
 
     usuario.save((err, usuarioDB) => {
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
@@ -83,7 +83,7 @@ app.put('/usuario/:id', [verificaToken, verificaAdmin_role], function(req, res) 
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
     //busca un usuario y lo actualiza, validando con el modelo
-    Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true }, (err, usuarioDB) => {
+    Usuario.findByIdAndUpdate(id, body, { new: false, runValidators: true }, (err, usuarioDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
