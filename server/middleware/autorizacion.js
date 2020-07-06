@@ -37,10 +37,10 @@ let verificaAdmin_role = (req, res, next) => {
 };
 
 
-/******************************************
+/************************************************
  *   Verifica si viene el Autority Token para la imagen
  *   y si es valido y activo
- ******************************************/
+ **********************************************/
 let verificaTokenImg = (req, res, next) => {
     let token = req.query.token;
     jwt.verify(token, process.env.SEED, (err, decoded) => {
@@ -51,11 +51,9 @@ let verificaTokenImg = (req, res, next) => {
                 ERROR: 'BAD TOKEN PROVIDED'
             });
         }
-
         req.usuario = decoded.usuario;
         next();
     });
-
 };
 
 module.exports = {
