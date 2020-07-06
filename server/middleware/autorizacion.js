@@ -33,12 +33,33 @@ let verificaAdmin_role = (req, res, next) => {
             message: 'No tiene suficientes privilegios'
         })
     }
-
     next();
+};
+
+
+/******************************************
+ *   Verifica si viene el Autority Token para la imagen
+ *   y si es valido y activo
+ ******************************************/
+let verificaTokenImg = (req, res, next) => {
+    let token = req.query.token;
+    jwt.verify(token, process.env.SEED, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({
+                ok: false,
+                err,
+                ERROR: 'BAD TOKEN PROVIDED'
+            });
+        }
+
+        req.usuario = decoded.usuario;
+        next();
+    });
 
 };
 
 module.exports = {
     verificaToken,
-    verificaAdmin_role
+    verificaAdmin_role,
+    verificaTokenImg
 }
